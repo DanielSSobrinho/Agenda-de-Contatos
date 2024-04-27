@@ -62,6 +62,26 @@ ERROS listar(Contato tarefas[], int *pos) {
 }
 
 
+ERROS carregar(Contato tarefas[], int *pos) {
+  FILE *f = fopen("tarefas.bin", "rb");
+  if (f == NULL) {
+    return ABRIR;
+  }
+  int qtd = fread(tarefas, TOTAL, sizeof(Contato), f);
+  if (qtd == 0) {
+    return CARREGAR;
+  }
+  qtd = fread(pos, 1, sizeof(int), f);
+  if (qtd == 0) {
+    return CARREGAR;
+  }
+  if (fclose(f)) {
+    return FECHAR;
+  }
+  return OK;
+}
+
+
 void clearBuffer() {
   int c;
   while ((c = getchar()) != '\n' && c != EOF)
