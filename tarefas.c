@@ -61,6 +61,53 @@ ERROS listar(Contato tarefas[], int *pos) {
   return OK;
 }
 
+ERROS deletar(Contato tarefas[], int *pos) {
+  // teste se existem tarefas
+  if (*pos == 0) {
+    return SEM_CONTATOS;
+  }
+  char excluir[15];
+  printf("\nDigite o numero de telefone do contato que deseja excluir: ");
+  fgets(excluir, 15, stdin);
+
+  int contatos_excluidos = 0;
+  int pos_deletar = -1;
+  int i, j;
+  int t;
+
+  for (i = 0; i < *pos; i++) {
+    if (strcmp(excluir, tarefas[i].telefone) == 0) {
+      // Move os contatos restantes uma posição para trás
+      pos_deletar = i;
+    }
+  }
+  for (j = pos_deletar; j < *pos; j++) {
+    strcpy(tarefas[j].telefone, tarefas[j + 1].telefone);
+    strcpy(tarefas[j].nome, tarefas[j + 1].nome);
+    strcpy(tarefas[j].sobrenome, tarefas[j + 1].sobrenome);
+    strcpy(tarefas[j].email, tarefas[j + 1].email);
+  }
+  contatos_excluidos++;
+  *pos = *pos - 1;
+  i--;
+
+  // printf("%d", deletar);
+
+  if (contatos_excluidos > 0) {
+    printf("\nContato(s) excluido(s) com sucesso!\n");
+  } else {
+    printf("\nNenhum contato encontrado com o numero de telefone fornecido.\n");
+  }
+
+  // Mostrar os contatos restantes
+  printf("\nLista de contatos atualizada:\n");
+  for (i = 0; i < *pos; i++) {
+    printf("Nome: %s, Telefone: %s\n", tarefas[i].nome, tarefas[i].telefone);
+  }
+
+  return 0;
+}
+
 
 ERROS carregar(Contato tarefas[], int *pos) {
   FILE *f = fopen("tarefas.bin", "rb");
