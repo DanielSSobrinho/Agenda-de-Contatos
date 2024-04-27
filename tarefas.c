@@ -60,3 +60,36 @@ ERROS listar(Contato tarefas[], int *pos) {
 
   return OK;
 }
+
+
+void clearBuffer() {
+  int c;
+  while ((c = getchar()) != '\n' && c != EOF)
+    ;
+}
+
+ERROS salvar(Contato tarefas[], int *pos) {
+  FILE *f = fopen("tarefas.bin", "wb");
+  if (f == NULL) {
+    printf("Erro ao abrir o arquivo\n");
+    return ABRIR;
+  }
+
+  int qtd = fwrite(tarefas, TOTAL, sizeof(Contato), f);
+  if (qtd == 0) {
+    printf("Erro ao escrever");
+    return ESCREVER;
+  }
+  qtd = fwrite(pos, 1, sizeof(int), f);
+  if (qtd == 0) {
+    printf("Erro ao escrever posição\n");
+    return ESCREVER;
+  }
+
+  if (fclose(f)) {
+    printf("Erro ao fechar \n");
+    return FECHAR;
+  }
+  return OK;
+}
+
