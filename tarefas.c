@@ -44,3 +44,19 @@ ERROS adicionar(Contato tarefas[], int *pos) {
 
   return OK;
 }
+
+ERROS listar(Contato tarefas[], int *pos) {
+
+  if (*pos == 0) {
+    return SEM_CONTATOS;
+  }
+  // mostra os contatos
+  printf("\nLista de contatos:\n");
+  for (i = 0; i < *pos; i++) {
+    printf("Nome: %s, Sobrenome: %s, Telefone: %s, E-mail: %s\n",
+           tarefas[i].nome, tarefas[i].sobrenome, tarefas[i].telefone,
+           tarefas[i].email);
+  }
+
+  return OK;
+}
