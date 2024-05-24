@@ -21,17 +21,6 @@ ERROS adicionar(Contato tarefas[], int *pos) {
     fgets(tarefas[*pos].nome, 50, stdin);
     printf("Sobrenome: ");
     fgets(tarefas[*pos].sobrenome, 50, stdin);
-    printf("E-mail: ");
-    fgets(tarefas[*pos].email, 50, stdin);
-    while (strstr(tarefas[*pos].email, "@") == NULL ||
-           strstr(tarefas[*pos].email, "@") == tarefas[*pos].email) {
-      printf("Email inválido. Tente novamente!");
-      fgets(tarefas[*pos].email, 50, stdin);
-    }
-    while (strstr(tarefas[*pos].email, ".") == NULL) {
-      printf("Email inválido. Tente novamente!");
-      fgets(tarefas[*pos].email, 50, stdin);
-    }
 
     printf("Telefone: ");
     fgets(tarefas[*pos].telefone, 15, stdin);
