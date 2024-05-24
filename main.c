@@ -1,14 +1,22 @@
 #include "tarefas.h"
 #include <stdio.h>  //inclui biblioteca stdio
-#include <string.h> //inclei biblioteca de caracteres
+#include <string.h> //inclui biblioteca de caracteres
 
 int main() {
-  funcao fs[] = {adicionar, deletar, listar, carregar, salvar};
+  funcao fs[] = {
+      adicionar, adicionar_corporativo, deletar, listar, alterar, carregar,
+      salvar};
+
+  int lista;
+  printf(
+      "\nVocê deseja modificar sua lista pessoal (1) ou corporativa (2) ?\n");
+  scanf("%d", &lista);
 
   Contato tarefas[TOTAL];
+  Contato tarefas_corporativa[TOTAL];
   int pos;
 
-  ERROS erro = fs[3](tarefas, &pos);
+  ERROS erro = fs[5](tarefas, &pos);
   if (erro != OK) {
     printf("teste");
     pos = 0;
@@ -17,15 +25,17 @@ int main() {
   int opcao;
   do {
     printf("\nMenu principal\n");
-    printf("1 - Adiconar contato\n");
-    printf("2 - Deletar contato\n");
-    printf("3 - Listar contato\n");
+    printf("1 - Adicionar contato pessoal\n");
+    printf("2 - Adicionar contato corporativo\n");
+    printf("3 - Deletar contato\n");
+    printf("4 - Listar contato\n");
+    printf("5 - Alterar contato\n");
     printf("0 - Salvar e Sair\n");
     printf("Escolha uma opcao: ");
 
     scanf("%d", &opcao);
     opcao--;
-    if (opcao > 2) {
+    if (opcao > 3) {
       printf("Opcao invalida\n");
     } else if (opcao >= 0) {
       ERROS resultado = fs[opcao](tarefas, &pos);
@@ -41,7 +51,7 @@ int main() {
     }
   } while (opcao >= 0);
 
-  erro = fs[4](tarefas, &pos);
+  erro = fs[6](tarefas, &pos);
   if (erro != OK)
     printf("Erro ao salvar as tarefas: %d\n", erro);
 

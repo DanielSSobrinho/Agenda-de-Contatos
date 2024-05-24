@@ -27,6 +27,8 @@ typedef enum {
 typedef ERROS (*funcao)(Contato[], int *);
 
 ERROS adicionar(Contato tarefas[], int *pos);
+ERROS adicionar_corporativo(Contato tarefas[], int *pos);
+ERROS alterar(Contato tarefas[], int *pos);
 ERROS deletar(Contato tarefas[], int *pos);
 ERROS listar(Contato tarefas[], int *pos);
 ERROS carregar(Contato tarefas[], int *pos);
