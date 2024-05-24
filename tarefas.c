@@ -12,6 +12,8 @@ ERROS adicionar(Contato tarefas[], int *pos) {
   int i;
   int num_contatos = 0;
   char resposta;
+  char email;
+
   do {
     printf("Adicionar contato %d\n", *pos + 1);
     clearBuffer();
@@ -19,10 +21,22 @@ ERROS adicionar(Contato tarefas[], int *pos) {
     fgets(tarefas[*pos].nome, 50, stdin);
     printf("Sobrenome: ");
     fgets(tarefas[*pos].sobrenome, 50, stdin);
-    printf("Telefone: ");
-    fgets(tarefas[*pos].telefone, 15, stdin);
     printf("E-mail: ");
     fgets(tarefas[*pos].email, 50, stdin);
+    while (strstr(tarefas[*pos].email, "@") == NULL ||
+           strstr(tarefas[*pos].email, "@") == tarefas[*pos].email) {
+      printf("Email inválido. Tente novamente!");
+      fgets(tarefas[*pos].email, 50, stdin);
+    }
+    while (strstr(tarefas[*pos].email, ".") == NULL) {
+      printf("Email inválido. Tente novamente!");
+      fgets(tarefas[*pos].email, 50, stdin);
+    }
+
+    
+
+    // Fecha o arquivo
+    fclose(f);
 
     (*pos)++;
 
