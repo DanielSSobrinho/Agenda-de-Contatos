@@ -21,14 +21,47 @@ ERROS adicionar(Contato tarefas[], int *pos) {
     fgets(tarefas[*pos].nome, 50, stdin);
     printf("Sobrenome: ");
     fgets(tarefas[*pos].sobrenome, 50, stdin);
+    printf("E-mail: ");
+    fgets(tarefas[*pos].email, 50, stdin);
+    while (strstr(tarefas[*pos].email, "@") == NULL ||
+           strstr(tarefas[*pos].email, "@") == tarefas[*pos].email) {
+      printf("Email inválido. Tente novamente!");
+      fgets(tarefas[*pos].email, 50, stdin);
+    }
+    while (strstr(tarefas[*pos].email, ".") == NULL) {
+      printf("Email inválido. Tente novamente!");
+      fgets(tarefas[*pos].email, 50, stdin);
+    }
 
+    printf("Telefone: ");
+    fgets(tarefas[*pos].telefone, 15, stdin);
 
-    // Fecha o arquivo
+    FILE *f;
+    int localizado = 0;
+
+    f = fopen("tarefas.bin", "rb");
+
+    if (f == NULL) {
+      perror("Erro ao abrir o arquivo");
+      return 1;
+    }
+
+    Contato temp_contato;
+
+    while (fread(&temp_contato, sizeof(Contato), 1, f)) {
+      if (strcmp(temp_contato.telefone, tarefas[*pos].telefone) == 0) {
+        localizado = 1;
+        break;
+      }
+    }
+
+    if (localizado) {
+      printf("Telefone já existe.\n");
+    }
+
     fclose(f);
 
     (*pos)++;
-
-    // Verificar se deseja adicionar mais contatos
     if (*pos < MAX_CONTATOS) {
       printf("Deseja adicionar mais contatos? (s/n): ");
       scanf(" %c", &resposta);
@@ -38,7 +71,80 @@ ERROS adicionar(Contato tarefas[], int *pos) {
     }
   } while (resposta == 's' || resposta == 'S');
 
-  // Mostrar os contatos adicionados
+  printf("\nLista de contatos:\n");
+  for (i = 0; i < num_contatos; i++) {
+    printf("Nome: %s, Telefone: %s\n", tarefas[i].nome, tarefas[i].telefone);
+  }
+
+  return OK;
+}
+
+ERROS adicionar_corporativo(Contato tarefas[], int *pos) {
+  if (*pos >= MAX_CONTATOS) {
+    return MAX_CONTATOS;
+  }
+  int i;
+  int num_contatos = 0;
+  char resposta;
+  char email;
+
+  do {
+    printf("Adicionar contato %d\n", *pos + 1);
+    clearBuffer();
+    printf("Nome: ");
+    fgets(tarefas[*pos].nome, 50, stdin);
+    printf("Sobrenome: ");
+    fgets(tarefas[*pos].sobrenome, 50, stdin);
+    printf("E-mail: ");
+    fgets(tarefas[*pos].email, 50, stdin);
+    while (strstr(tarefas[*pos].email, "@") == NULL ||
+           strstr(tarefas[*pos].email, "@") == tarefas[*pos].email) {
+      printf("Email inválido. Tente novamente!");
+      fgets(tarefas[*pos].email, 50, stdin);
+    }
+    while (strstr(tarefas[*pos].email, ".") == NULL) {
+      printf("Email inválido. Tente novamente!");
+      fgets(tarefas[*pos].email, 50, stdin);
+    }
+
+    printf("Telefone: ");
+    fgets(tarefas[*pos].telefone, 15, stdin);
+
+    FILE *f;
+    int localizado = 0;
+
+    f = fopen("tarefas.bin", "rb");
+
+    if (f == NULL) {
+      perror("Erro ao abrir o arquivo");
+      return 1;
+    }
+
+    Contato temp_contato;
+
+    while (fread(&temp_contato, sizeof(Contato), 1, f)) {
+      if (strcmp(temp_contato.telefone, tarefas[*pos].telefone) == 0) {
+        localizado = 1;
+        break;
+      }
+    }
+
+    if (localizado) {
+      printf("Telefone já existe.\n");
+    }
+
+    fclose(f);
+
+    (*pos)++;
+    if (*pos < MAX_CONTATOS) {
+      printf("Deseja adicionar mais contatos? (s/n): ");
+      scanf(" %c", &resposta);
+    } else {
+      printf("Numero maximo de contatos atingido.\n");
+      break;
+    }
+  } while (resposta == 's' || resposta == 'S');
+
   printf("\nLista de contatos:\n");
   for (i = 0; i < num_contatos; i++) {
     printf("Nome: %s, Telefone: %s\n", tarefas[i].nome, tarefas[i].telefone);
@@ -110,7 +216,6 @@ ERROS deletar(Contato tarefas[], int *pos) {
   return 0;
 }
 
-
 ERROS carregar(Contato tarefas[], int *pos) {
   FILE *f = fopen("tarefas.bin", "rb");
   if (f == NULL) {
@@ -129,7 +234,6 @@ ERROS carregar(Contato tarefas[], int *pos) {
   }
   return OK;
 }
-
 
 void clearBuffer() {
   int c;
@@ -162,3 +266,4 @@ ERROS salvar(Contato tarefas[], int *pos) {
   return OK;
 }
 
+ERROS alterar(Contato tarefas[], int *pos) { return OK; }
